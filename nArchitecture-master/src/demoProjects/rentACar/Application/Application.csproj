@@ -7,6 +7,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+		<Folder Include="Features\Auths\Commands\Login\" />
 		<Folder Include="Features\Brands\Constants\" />
 		<Folder Include="Features\Models\Commands\" />
 		<Folder Include="Features\Models\Constants\" />

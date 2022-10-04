@@ -1,0 +1,18 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\nArchitecture-master",
+    "\\nArchitecture-master\\src",
+    "\\nArchitecture-master\\src\\demoProjects",
+    "\\nArchitecture-master\\src\\demoProjects\\rentACar",
+    "\\nArchitecture-master\\src\\demoProjects\\rentACar\\Application",
+    "\\nArchitecture-master\\src\\demoProjects\\rentACar\\Application\\Features",
+    "\\nArchitecture-master\\src\\demoProjects\\rentACar\\Application\\Features\\Models",
+    "\\nArchitecture-master\\src\\demoProjects\\rentACar\\Application\\Features\\Models\\Queries",
+    "\\nArchitecture-master\\src\\demoProjects\\rentACar\\Application\\Features\\Models\\Queries\\GetListModel",
+    "\\nArchitecture-master\\src\\demoProjects\\rentACar\\WebAPI",
+    "\\nArchitecture-master\\src\\demoProjects\\rentACar\\WebAPI\\Controllers"
+  ],
+  "SelectedNode": "\\nArchitecture-master\\src\\demoProjects\\rentACar\\WebAPI\\Controllers\\ModelsController.cs",
+  "PreviewInSolutionExplorer": false
+}
