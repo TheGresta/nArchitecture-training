@@ -1,7 +1,11 @@
 ﻿using Application.Features.Auths.Commands.Rules;
 using Application.Features.Auths.Dtos;
+using Application.Services.AuthService;
 using Application.Services.Repositories;
 using Core.Security.Dtos;
+using Core.Security.Entities;
+using Core.Security.Hashing;
+using Core.Security.JWT;
 using MediatR;
 
 namespace Application.Features.Auths.Commands.Register
@@ -15,9 +19,47 @@ namespace Application.Features.Auths.Commands.Register
         {
             private readonly AuthBusinessRules _authBusinessRules;
             private readonly IUserRepository _userRepository;
-            public Task<RegisteredDto> Handle(RegisterCommand request, CancellationToken cancellationToken)
+            private readonly IAuthService _authService;
+
+            public RegisterCommandHandler(AuthBusinessRules authBusinessRules, 
+                                          IUserRepository userRepository, 
+                                          IAuthService authService)
             {
-                throw new NotImplementedException();
+                _authBusinessRules = authBusinessRules;
+                _userRepository = userRepository;
+                _authService = authService;
+            }
+
+            public async Task<RegisteredDto> Handle(RegisterCommand request, CancellationToken cancellationToken)
+            {
+                await _authBusinessRules.EmailCanNotBeDuplicatedWhenRegistered(request.UserForRegisterDto.Email);
+
+                byte[] passwordHash, passwordSald;
+                HashingHelper.CreatePasswordHash(request.UserForRegisterDto.Password, out passwordHash, out passwordSald);
+
+                User newUser = new()
+                {
+                    Email = request.UserForRegisterDto.Email,
+                    PasswordHash = passwordHash,
+                    PasswordSalt = passwordSald,
+                    FirstName = request.UserForRegisterDto.FirstName,
+                    LastName = request.UserForRegisterDto.LastName,
+                    Status = true
+                };
+
+                User createdUser = await _userRepository.AddAsync(newUser);
+
+                AccessToken createdAccessToken = await _authService.CreateAccessToken(createdUser);
+                RefreshToken createdRefreshToken = await _authService.CreateRefreshToken(createdUser, request.IpAddress);
+                RefreshToken addedRefreshToken = await _authService.AddRefreshToken(createdRefreshToken);
+
+                RegisteredDto registeredDto = new()
+                {
+                    RefreshToken = addedRefreshToken,
+                    AccessToken = createdAccessToken,
+                };
+
+                return registeredDto;
             }
         }
     }
