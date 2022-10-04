@@ -1,4 +1,6 @@
-﻿using Application.Features.Brands.Rules;
+﻿using Application.Features.Auths.Commands.Rules;
+using Application.Features.Brands.Rules;
+using Application.Services.AuthService;
 using Core.Application.Pipelines.Validation;
 using FluentValidation;
 using MediatR;
@@ -21,6 +23,9 @@ namespace Application
             services.AddMediatR(Assembly.GetExecutingAssembly());
 
             services.AddScoped<BrandBusinessRules>();
+            services.AddScoped<AuthBusinessRules>();
+
+            services.AddScoped<IAuthService, AuthManager>();
 
             services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
             //services.AddTransient(typeof(IPipelineBehavior<,>), typeof(AuthorizationBehavior<,>));
